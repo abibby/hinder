@@ -3,24 +3,27 @@ import { useHash } from "../hooks/hash";
 import { useItems } from "../hooks/items";
 import { bind } from "@zwzn/spicy";
 import { Item, db } from "../db";
+import { useUserID } from "../hooks/user";
 
 export function Vote() {
   const [listID] = useHash();
+  const userID = useUserID();
 
   const [voteNum, setVoteNum] = useState(0);
-  const { items, open, vote } = useItems(listID, "ws://localhost:3339");
+  const { items, vote } = useItems(listID, "ws://localhost:3339");
   const [combos, setCombos] = useState<[Item, Item][]>([]);
 
   useEffect(() => {
     const combos = getCombinations(items ?? []);
+
+    console.log(combos);
+
     (async () => {
       let i = 0;
       for (const [a, b] of combos) {
         const v = await db.votes
-          .where(["list_id", "winner_id", "loser_id"])
-          .equals([listID, a.id, b.id])
-          .or(["list_id", "winner_id", "loser_id"])
-          .equals([listID, b.id, a.id])
+          .where(["list_id", "user_id", "a_id", "b_id"])
+          .equals([listID, userID, a.id, b.id])
           .first();
         if (v === undefined) {
           setVoteNum(i);
@@ -31,7 +34,7 @@ export function Vote() {
       setVoteNum(i);
     })();
     setCombos(combos);
-  }, [items, setVoteNum]);
+  }, [items, userID, setVoteNum]);
 
   const [itemA, itemB] = combos[voteNum] ?? [];
 
@@ -45,7 +48,6 @@ export function Vote() {
 
   return (
     <div>
-      {open ? "open" : "opening"} <br />
       {listID}
       <ul>
         {[...(items ?? [])].sort(byKey("elo")).map((item) => (
@@ -73,7 +75,7 @@ function byKey<T>(key: keyof T): (a: T, b: T) => number {
 }
 
 function getCombinations<T>(array: T[]): [T, T][] {
-  return [].concat(
-    ...array.map((v, i) => array.slice(i + 1).map((w) => [v, w] as const))
+  return array.flatMap((v, i): [T, T][] =>
+    array.slice(i + 1).map((w): [T, T] => [v, w])
   );
 }

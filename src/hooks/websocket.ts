@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { DependencyList, useCallback, useEffect, useState } from "react";
 
 export function useWebsocket<T = unknown>(
   url: string,
-  onMessage: (data: T) => void
-): [WebSocket | undefined, boolean] {
+  onMessage: (data: T, ws: WebSocket) => void,
+  deps: DependencyList
+): WebSocket | undefined {
   const [ws, setWS] = useState<WebSocket>();
-  const [open, setOpen] = useState(false);
+
+  const messageCB = useCallback(onMessage, deps);
 
   useEffect(() => {
     console.log("connect to " + url);
 
     const ws = new WebSocket(url);
-    ws.addEventListener("open", () => setOpen(true));
-    ws.addEventListener("message", (e) => {
-      onMessage(JSON.parse(e.data));
+    ws.addEventListener("open", () => {
+      setWS(ws);
     });
-    setWS(ws);
+    ws.addEventListener("message", (e) => {
+      messageCB(JSON.parse(e.data), ws);
+    });
 
     return () => {
       console.log("close " + url);
@@ -23,5 +26,5 @@ export function useWebsocket<T = unknown>(
     };
   }, [url]);
 
-  return [ws, open];
+  return ws;
 }

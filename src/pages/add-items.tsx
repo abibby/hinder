@@ -3,12 +3,14 @@ import { bind, bindValue } from "@zwzn/spicy";
 import { useItems } from "../hooks/items";
 import { useHash } from "../hooks/hash";
 import { Link } from "react-router-dom";
+import { useUserID } from "../hooks/user";
 
 export function AddItems() {
+  const userID = useUserID();
   const [listID] = useHash();
   const [itemName, setItemName] = useState("");
 
-  const { items, newItem, removeItem, open } = useItems(
+  const { items, newItem, removeItem } = useItems(
     listID,
     "ws://localhost:3339"
   );
@@ -21,13 +23,13 @@ export function AddItems() {
   return (
     <div>
       <h1>Host</h1>
-      {open ? "open" : "opening"} <br />
       {listID}
       <ul>
         {items?.map((item) => (
-          <li>
-            {item.name}{" "}
-            {item.my_item && (
+          <li key={item.id}>
+            {item.name}
+            {" | "}
+            {item.user_id === userID && (
               <button onClick={bind(item.id, removeItem)}>x</button>
             )}
           </li>
