@@ -11,10 +11,7 @@ export function AddItems() {
   const [listID] = useHash();
   const [itemName, setItemName] = useState("");
 
-  const { items, newItem, removeItem } = useDatabase(
-    listID,
-    "wss://wsroom.adambibby.ca"
-  );
+  const { items, newItem, removeItem } = useDatabase(listID);
 
   const send = useCallback(
     async (e: FormEvent) => {

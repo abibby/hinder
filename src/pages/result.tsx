@@ -5,7 +5,7 @@ import { byKey } from "../utils";
 
 export function Result() {
   const [listID] = useHash();
-  const { items, votes } = useDatabase(listID, "wss://wsroom.adambibby.ca");
+  const { items, votes } = useDatabase(listID);
   const sortedItems = Array.from(items ?? [])
     .map((i) => ({
       name: i.name,

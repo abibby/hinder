@@ -10,10 +10,7 @@ import { byKey } from "../utils";
 export function Vote() {
   const [listID] = useHash();
 
-  const { items, votes, myVotes, newVote } = useDatabase(
-    listID,
-    "wss://wsroom.adambibby.ca"
-  );
+  const { items, votes, myVotes, newVote } = useDatabase(listID);
 
   const [combo, setCombo] = useState<[Item, Item]>();
   useEffect(() => {
@@ -51,11 +48,6 @@ function getCombination(
   rounds: number,
   usedVotes: DBVote[] = []
 ): [Item, Item] | undefined {
-  console.log(
-    "combos",
-    items.map((i) => i.name),
-    rounds
-  );
   for (let i = 0; i < items.length; i += 2) {
     const a = items[i];
     const b = items[(i + 1) % items.length];
@@ -75,7 +67,6 @@ function getCombination(
     const newItems = Array.from(items).sort((a, b) => {
       const vA = voteCount(a, usedVotes);
       const vB = voteCount(b, usedVotes);
-      console.log("votes", vA, vB);
 
       if (vA > vB) return -1;
       if (vA < vB) return 1;

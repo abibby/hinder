@@ -16,7 +16,9 @@ type Message =
       type: "state";
     };
 
-export function useDatabase(listID: string, wsroomHost: string) {
+export function useDatabase(listID: string) {
+  const wsroomHost = import.meta.env.HINDER_WSROOM_HOST;
+
   const userID = useUserID();
 
   const ws = useWebsocket<Message>(
