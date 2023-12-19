@@ -33,7 +33,7 @@ export class Database extends Dexie {
     super("hinder");
     this.version(1).stores({
       items: "id, list_id, [deleted+list_id]",
-      votes: "[list_id+user_id+a_id+b_id]",
+      votes: "[list_id+user_id+a_id+b_id], list_id",
       lists: "id, saved, created_at",
     });
   }

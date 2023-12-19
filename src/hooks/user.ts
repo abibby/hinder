@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export function useUserID(): string {
   let id = localStorage.getItem("user_id");
   if (id === null) {

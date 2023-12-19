@@ -2,7 +2,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useWebsocket } from "./websocket";
 import { Item, Vote, db } from "../db";
 import { useCallback, useEffect } from "react";
-import EloRank from "elo-rank";
 import { useUserID } from "./user";
 type Message =
   | {
@@ -17,7 +16,7 @@ type Message =
       type: "state";
     };
 
-export function useItems(listID: string, wsroomHost: string) {
+export function useDatabase(listID: string, wsroomHost: string) {
   const userID = useUserID();
 
   const ws = useWebsocket<Message>(
@@ -26,11 +25,12 @@ export function useItems(listID: string, wsroomHost: string) {
       switch (data.type) {
         case "put-item":
           await db.items.put(data.item);
-
           break;
+
         case "put-vote":
           await db.votes.put(data.vote);
           break;
+
         case "state":
           const listItems = await db.items
             .where("list_id")
@@ -59,6 +59,11 @@ export function useItems(listID: string, wsroomHost: string) {
   const items = useLiveQuery(() =>
     db.items.where(["deleted", "list_id"]).equals([0, listID]).toArray()
   );
+  const [votes, myVotes] =
+    useLiveQuery(async () => {
+      const votes = await db.votes.where("list_id").equals(listID).toArray();
+      return [votes, votes.filter((v) => v.user_id === userID)];
+    }, [userID]) ?? [];
 
   const newItem = useCallback(
     async (itemName: string) => {
@@ -89,7 +94,7 @@ export function useItems(listID: string, wsroomHost: string) {
     [ws]
   );
 
-  const vote = useCallback(
+  const newVote = useCallback(
     async (winner: Item, loser: Item) => {
       const [aID, bID] = [winner.id, loser.id].sort();
       const msg: Message = {
@@ -102,10 +107,11 @@ export function useItems(listID: string, wsroomHost: string) {
           winner_id: winner.id,
         },
       };
+
       ws?.send(JSON.stringify(msg));
       const v = await db.votes
-        .where(["list_id", "a_id", "b_id"])
-        .equals([listID, aID, bID])
+        .where(["list_id", "user_id", "a_id", "b_id"])
+        .equals([listID, userID, aID, bID])
         .first();
       if (v !== undefined) {
         return;
@@ -117,22 +123,24 @@ export function useItems(listID: string, wsroomHost: string) {
 
   return {
     items,
+    votes,
+    myVotes,
     newItem,
     removeItem,
-    vote,
+    newVote,
   };
 }
 
-async function _vote(winner: Item, loser: Item): Promise<void> {
-  const elo = new EloRank();
-  var expectedScoreW = elo.getExpected(winner.elo, loser.elo);
-  var expectedScoreL = elo.getExpected(loser.elo, winner.elo);
+// async function _vote(winner: Item, loser: Item): Promise<void> {
+//   const elo = new EloRank();
+//   var expectedScoreW = elo.getExpected(winner.elo, loser.elo);
+//   var expectedScoreL = elo.getExpected(loser.elo, winner.elo);
 
-  winner.elo = elo.updateRating(expectedScoreW, 1, winner.elo);
-  loser.elo = elo.updateRating(expectedScoreL, 0, loser.elo);
+//   winner.elo = elo.updateRating(expectedScoreW, 1, winner.elo);
+//   loser.elo = elo.updateRating(expectedScoreL, 0, loser.elo);
 
-  await db.items.bulkPut([winner, loser]);
-}
+//   await db.items.bulkPut([winner, loser]);
+// }
 
 async function sendItem(ws: WebSocket | undefined, item: Item): Promise<void> {
   const msg: Message = {
@@ -154,7 +162,6 @@ async function requestState(ws: WebSocket | undefined): Promise<void> {
   const msg: Message = {
     type: "state",
   };
-  console.log("request state");
 
   ws?.send(JSON.stringify(msg));
 }

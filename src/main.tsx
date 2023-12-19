@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AddItems } from "./pages/add-items.tsx";
 import { Vote } from "./pages/vote.tsx";
 import { Home } from "./pages/home.tsx";
+import { Result } from "./pages/result.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,12 +20,14 @@ const router = createBrowserRouter([
     path: "/vote",
     element: <Vote />,
   },
+  {
+    path: "/result",
+    element: <Result />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

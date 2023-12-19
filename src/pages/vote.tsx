@@ -1,81 +1,92 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHash } from "../hooks/hash";
-import { useItems } from "../hooks/items";
+import { useDatabase } from "../hooks/database";
 import { bind } from "@zwzn/spicy";
-import { Item, db } from "../db";
-import { useUserID } from "../hooks/user";
+import { Item, Vote as DBVote } from "../db";
+import { Layout } from "../components/layout";
+import { Link } from "react-router-dom";
+import { byKey } from "../utils";
 
 export function Vote() {
   const [listID] = useHash();
-  const userID = useUserID();
 
-  const [voteNum, setVoteNum] = useState(0);
-  const { items, vote } = useItems(listID, "ws://localhost:3339");
-  const [combos, setCombos] = useState<[Item, Item][]>([]);
-
-  useEffect(() => {
-    const combos = getCombinations(items ?? []);
-
-    console.log(combos);
-
-    (async () => {
-      let i = 0;
-      for (const [a, b] of combos) {
-        const v = await db.votes
-          .where(["list_id", "user_id", "a_id", "b_id"])
-          .equals([listID, userID, a.id, b.id])
-          .first();
-        if (v === undefined) {
-          setVoteNum(i);
-          return;
-        }
-        i++;
-      }
-      setVoteNum(i);
-    })();
-    setCombos(combos);
-  }, [items, userID, setVoteNum]);
-
-  const [itemA, itemB] = combos[voteNum] ?? [];
-
-  const voteItem = useCallback(
-    async (a: Item, b: Item) => {
-      setVoteNum((n) => n + 1);
-      await vote(a, b);
-    },
-    [vote, setVoteNum]
+  const { items, votes, myVotes, newVote } = useDatabase(
+    listID,
+    "wss://wsroom.adambibby.ca"
   );
 
+  const [combo, setCombo] = useState<[Item, Item]>();
+  useEffect(() => {
+    const combo = getCombination(items ?? [], myVotes ?? [], 3);
+    setCombo(combo);
+  }, [items, myVotes]);
+
+  const [itemA, itemB] = combo ?? [];
+
   return (
-    <div>
-      {listID}
+    <Layout>
+      <h1>Vote</h1>
       <ul>
-        {[...(items ?? [])].sort(byKey("elo")).map((item) => (
+        {[...(items ?? [])].sort(byKey("name")).map((item) => (
           <li key={item.id}>
-            {item.name} {item.elo}
+            {item.name} | {votes?.filter((v) => v.winner_id === item.id).length}
           </li>
         ))}
       </ul>
-      {itemA && itemB && (
+      {itemA && itemB ? (
         <div>
-          <button onClick={bind(itemA, itemB, voteItem)}>{itemA?.name}</button>
-          <button onClick={bind(itemB, itemA, voteItem)}>{itemB?.name}</button>
+          <button onClick={bind(itemA, itemB, newVote)}>{itemA?.name}</button>
+          <button onClick={bind(itemB, itemA, newVote)}>{itemB?.name}</button>
         </div>
+      ) : (
+        <Link to={`/result#${listID}`}>next</Link>
       )}
-    </div>
+    </Layout>
   );
 }
 
-function byKey<T>(key: keyof T): (a: T, b: T) => number {
-  return function (a, b) {
-    var x = a[key];
-    var y = b[key];
-    return x < y ? -1 : x > y ? 1 : 0;
-  };
+function getCombination(
+  items: Item[],
+  votes: DBVote[],
+  rounds: number,
+  usedVotes: DBVote[] = []
+): [Item, Item] | undefined {
+  console.log(
+    "combos",
+    items.map((i) => i.name),
+    rounds
+  );
+  for (let i = 0; i < items.length; i += 2) {
+    const a = items[i];
+    const b = items[(i + 1) % items.length];
+    if (a.id == b.id) {
+      continue;
+    }
+
+    const [aID, bID] = [a.id, b.id].sort();
+    const vote = votes.find((v) => v.a_id === aID && v.b_id === bID);
+    if (vote === undefined) {
+      return [a, b];
+    }
+    usedVotes.push(vote);
+  }
+
+  if (rounds > 1) {
+    const newItems = Array.from(items).sort((a, b) => {
+      const vA = voteCount(a, usedVotes);
+      const vB = voteCount(b, usedVotes);
+      console.log("votes", vA, vB);
+
+      if (vA > vB) return -1;
+      if (vA < vB) return 1;
+      return 0;
+    });
+
+    return getCombination(newItems, votes, rounds - 1, usedVotes);
+  }
+  return undefined;
 }
 
-function getCombinations<T>(array: T[]): [T, T][] {
-  return array.flatMap((v, i): [T, T][] =>
-    array.slice(i + 1).map((w): [T, T] => [v, w])
-  );
+function voteCount(item: Item, votes: DBVote[]): number {
+  return votes.filter((v) => v.winner_id === item.id).length;
 }

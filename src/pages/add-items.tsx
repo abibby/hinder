@@ -1,29 +1,34 @@
-import { useCallback, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { bind, bindValue } from "@zwzn/spicy";
-import { useItems } from "../hooks/items";
+import { useDatabase } from "../hooks/database";
 import { useHash } from "../hooks/hash";
 import { Link } from "react-router-dom";
 import { useUserID } from "../hooks/user";
+import { Layout } from "../components/layout";
 
 export function AddItems() {
   const userID = useUserID();
   const [listID] = useHash();
   const [itemName, setItemName] = useState("");
 
-  const { items, newItem, removeItem } = useItems(
+  const { items, newItem, removeItem } = useDatabase(
     listID,
-    "ws://localhost:3339"
+    "wss://wsroom.adambibby.ca"
   );
 
-  const send = useCallback(async () => {
-    newItem(itemName);
-    setItemName("");
-  }, [newItem, itemName, setItemName]);
+  const send = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      newItem(itemName);
+      setItemName("");
+    },
+    [newItem, itemName, setItemName]
+  );
 
   return (
-    <div>
-      <h1>Host</h1>
-      {listID}
+    <Layout>
+      <h1>Add Items</h1>
+
       <ul>
         {items?.map((item) => (
           <li key={item.id}>
@@ -35,13 +40,19 @@ export function AddItems() {
           </li>
         ))}
       </ul>
-      <div>
-        <input type="text" onInput={bindValue(setItemName)} value={itemName} />
-        <button onClick={send}>send</button>
-      </div>
+      <form onSubmit={send}>
+        <div>
+          <input
+            type="text"
+            onInput={bindValue(setItemName)}
+            value={itemName}
+          />
+          <button type="submit">send</button>
+        </div>
+      </form>
       <div>
         <Link to={`/vote#${listID}`}>vote</Link>
       </div>
-    </div>
+    </Layout>
   );
 }
