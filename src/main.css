@@ -8,14 +8,19 @@
   --success: 223, 255, 216;
   --on-success: 0, 0, 0;
 
+  --text-opacity: 80%;
+
   font-family: sans-serif;
 }
 
 body {
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle at 100% 0%,
     rgb(var(--primary)),
     rgb(var(--secondary))
-  );
-  min-height: 100vh;
+  ); */
+  /* min-height: 100vh; */
+  /* margin: 0; */
+  padding-bottom: env(keyboard-inset-height, 0);
+  /* overflow: hidden; */
 }

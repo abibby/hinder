@@ -1,0 +1,11 @@
+/* .root {
+  background: radial-gradient(
+    circle at 100% 0%,
+    rgb(var(--primary)),
+    rgb(var(--secondary))
+  );
+  padding: 5px;
+  position: relative;
+  height: calc(var(--vvh) * 1px);
+  overflow: hidden;
+} */
