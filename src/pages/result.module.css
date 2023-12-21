@@ -1,0 +1,15 @@
+.items {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0;
+}
+.item {
+  padding: 10px;
+  border-bottom: solid 1px rgb(var(--primary), 50%);
+}
+
+.position {
+  display: inline-block;
+  width: 1.5rem;
+  color: rgb(var(--primary));
+}

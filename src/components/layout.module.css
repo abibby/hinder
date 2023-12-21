@@ -1,11 +1,19 @@
-/* .root {
-  background: radial-gradient(
-    circle at 100% 0%,
-    rgb(var(--primary)),
-    rgb(var(--secondary))
-  );
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background-color: rgb(var(--primary));
+  color: rgba(var(--on-primary), var(--text-opacity));
+}
+
+.navItem {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content {
+  margin-top: 38px;
   padding: 5px;
-  position: relative;
-  height: calc(var(--vvh) * 1px);
-  overflow: hidden;
-} */
+}

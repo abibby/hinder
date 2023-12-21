@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import styles from "./layout.module.css";
 import classNames from "classnames";
@@ -13,10 +13,12 @@ export function Layout({
 }: PropsWithChildren<LayoutProps>) {
   return (
     <div className={styles.root}>
-      <nav>
-        <Link to="/">home</Link>
+      <nav className={styles.nav}>
+        <Link className={styles.navItem} to="/">
+          [hinder]
+        </Link>
       </nav>
-      <div className={className}>{children}</div>
+      <div className={classNames(styles.content, className)}>{children}</div>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useHash } from "../hooks/hash";
-import { Link } from "react-router-dom";
 import { Layout } from "../components/layout";
 import styles from "./qr.module.css";
 import QRCode from "react-qr-code";

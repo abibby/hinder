@@ -4,40 +4,52 @@ import { useDatabase } from "../hooks/database";
 import { bind } from "@zwzn/spicy";
 import { Item, Vote as DBVote } from "../db";
 import { Layout } from "../components/layout";
-import { Link } from "react-router-dom";
-import { byKey } from "../utils";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../components/button";
+import styles from "./vote.module.css";
+
+const done = Symbol("done");
+const loading = Symbol("loading");
 
 export function Vote() {
   const [listID] = useHash();
+  const navigate = useNavigate();
 
-  const { items, votes, myVotes, newVote } = useDatabase(listID);
+  const { items, myVotes, newVote } = useDatabase(listID);
 
-  const [combo, setCombo] = useState<[Item, Item]>();
+  const [combo, setCombo] = useState<
+    [Item, Item] | typeof done | typeof loading
+  >(loading);
   useEffect(() => {
-    const combo = getCombination(items ?? [], myVotes ?? [], 3);
-    setCombo(combo);
+    if (items === undefined) {
+      setCombo(loading);
+      return;
+    }
+    const combo = getCombination(items, myVotes ?? [], 3);
+    if (combo === undefined) {
+      setCombo(done);
+    } else {
+      setCombo(combo);
+    }
   }, [items, myVotes]);
 
-  const [itemA, itemB] = combo ?? [];
+  if (combo === loading) {
+    return <>loading</>;
+  }
+  if (combo === done) {
+    navigate(`/result#${listID}`);
+    return <>done</>;
+  }
+
+  const [itemA, itemB] = combo;
 
   return (
     <Layout>
       <h1>Vote</h1>
-      <ul>
-        {[...(items ?? [])].sort(byKey("name")).map((item) => (
-          <li key={item.id}>
-            {item.name} | {votes?.filter((v) => v.winner_id === item.id).length}
-          </li>
-        ))}
-      </ul>
-      {itemA && itemB ? (
-        <div>
-          <button onClick={bind(itemA, itemB, newVote)}>{itemA?.name}</button>
-          <button onClick={bind(itemB, itemA, newVote)}>{itemB?.name}</button>
-        </div>
-      ) : (
-        <Link to={`/result#${listID}`}>next</Link>
-      )}
+      <div className={styles.buttons}>
+        <Button onClick={bind(itemA, itemB, newVote)}>{itemA?.name}</Button>
+        <Button onClick={bind(itemB, itemA, newVote)}>{itemB?.name}</Button>
+      </div>
     </Layout>
   );
 }

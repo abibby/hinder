@@ -1,0 +1,9 @@
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 50vh;
+}
+.buttons > * {
+  flex-grow: 1;
+}

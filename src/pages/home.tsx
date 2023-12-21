@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "./home.module.css";
 import { Button } from "../components/button";
 
