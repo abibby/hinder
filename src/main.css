@@ -1,0 +1,21 @@
+:root {
+  --primary: 149, 189, 255;
+  --on-primary: 0, 0, 0;
+  --secondary: 180, 228, 255;
+  --on-secondary: 0, 0, 0;
+  --error: 247, 200, 224;
+  --on-error: 0, 0, 0;
+  --success: 223, 255, 216;
+  --on-success: 0, 0, 0;
+
+  font-family: sans-serif;
+}
+
+body {
+  background: radial-gradient(
+    circle at 100% 0%,
+    rgb(var(--primary)),
+    rgb(var(--secondary))
+  );
+  min-height: 100vh;
+}

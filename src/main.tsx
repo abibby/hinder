@@ -6,6 +6,7 @@ import { AddItems } from "./pages/add-items.tsx";
 import { Vote } from "./pages/vote.tsx";
 import { Home } from "./pages/home.tsx";
 import { Result } from "./pages/result.tsx";
+import "./main.css";
 
 const router = createBrowserRouter([
   {

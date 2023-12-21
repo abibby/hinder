@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Layout } from "../components/layout";
+import styles from "./home.module.css";
 
 export function Home() {
   const [listID, setListID] = useState("");
@@ -8,10 +8,14 @@ export function Home() {
     setListID(crypto.randomUUID());
   }, []);
   return (
-    <Layout>
-      <h1>Hinder</h1>
+    <section className={styles.home}>
+      <h1 className={styles.title}>[hinder]</h1>
 
-      <Link to={`/add#${listID}`}>New List</Link>
-    </Layout>
+      <Link className={styles.new} to={`/add#${listID}`}>
+        New List
+      </Link>
+
+      {/* <img className={styles.bg} src={bg} alt="" /> */}
+    </section>
   );
 }
