@@ -76,6 +76,7 @@ export function useDatabase(listID: string) {
         list_id: listID,
         elo: 400,
         deleted: 0,
+        created_at: Date.now(),
       };
       await sendItem(ws, item);
       await db.items.put(item);

@@ -7,6 +7,7 @@ export interface Item {
   deleted: number;
   name: string;
   elo: number;
+  created_at: number;
 }
 export interface Vote {
   list_id: string;

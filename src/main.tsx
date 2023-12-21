@@ -8,11 +8,16 @@ import { Home } from "./pages/home.tsx";
 import { Result } from "./pages/result.tsx";
 import "./main.css";
 import "./polyfill/crypto.randomUUID";
+import { QR } from "./pages/qr.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/qr",
+    element: <QR />,
   },
   {
     path: "/add",
@@ -35,5 +40,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 if ("virtualKeyboard" in navigator) {
-  navigator.virtualKeyboard.overlaysContent = true;
+  (navigator as any).virtualKeyboard.overlaysContent = true;
 }

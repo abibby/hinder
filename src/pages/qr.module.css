@@ -1,0 +1,12 @@
+.root {
+  text-align: center;
+}
+
+.qr {
+  width: 100%;
+  height: 90vmin;
+}
+
+.start {
+  margin-top: 10vh;
+}

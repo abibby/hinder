@@ -8,13 +8,5 @@
 }
 
 .new {
-  display: inline-block;
   margin-top: 15vh;
-  background-color: rgb(var(--success));
-  color: rgba(var(--on-success), var(--text-opacity));
-  padding: 10px 15px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.5rem;
 }
