@@ -124,6 +124,10 @@ export function useDatabase(listID: string) {
     [ws, userID]
   );
 
+  const removeVote = useCallback(async (vote: Vote): Promise<void> => {
+    await db.votes.delete([vote.list_id, vote.user_id, vote.a_id, vote.b_id]);
+  }, []);
+
   return {
     items,
     votes,
@@ -131,6 +135,7 @@ export function useDatabase(listID: string) {
     newItem,
     removeItem,
     newVote,
+    removeVote,
   };
 }
 

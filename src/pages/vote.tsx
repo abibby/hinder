@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHash } from "../hooks/hash";
 import { useDatabase } from "../hooks/database";
 import { bind } from "@zwzn/spicy";
@@ -15,7 +15,7 @@ export function Vote() {
   const [listID] = useHash();
   const navigate = useNavigate();
 
-  const { items, myVotes, newVote } = useDatabase(listID);
+  const { items, myVotes, newVote, removeVote } = useDatabase(listID);
 
   const [combo, setCombo] = useState<
     [Item, Item] | typeof done | typeof loading
@@ -32,6 +32,12 @@ export function Vote() {
       setCombo(combo);
     }
   }, [items, myVotes]);
+
+  const undoVote = useCallback(() => {
+    if (myVotes) {
+      removeVote(myVotes[myVotes.length - 1]);
+    }
+  }, [myVotes]);
 
   if (combo === loading) {
     return <>loading</>;
@@ -50,6 +56,11 @@ export function Vote() {
         <Button onClick={bind(itemA, itemB, newVote)}>{itemA?.name}</Button>
         <Button onClick={bind(itemB, itemA, newVote)}>{itemB?.name}</Button>
       </div>
+      {(myVotes?.length ?? 0) > 0 && (
+        <Button className={styles.undo} onClick={undoVote}>
+          undo
+        </Button>
+      )}
     </Layout>
   );
 }

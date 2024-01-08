@@ -7,3 +7,13 @@
 .buttons > * {
   flex-grow: 1;
 }
+
+.undo {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  height: 4rem;
+  width: 4rem;
+  border-radius: 9999px;
+}
