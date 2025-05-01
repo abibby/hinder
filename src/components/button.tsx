@@ -24,22 +24,21 @@ export function Button({
   size = "md",
   ...props
 }: PropsWithChildren<ButtonProps>) {
+  const classes = classNames(styles.button, className, styles[size]);
   if ("href" in props) {
     return (
-      <Link
-        className={classNames(styles.button, className, styles[size])}
-        to={props.href}
-      >
+      <Link className={classes} to={props.href}>
         {children}
       </Link>
     );
   }
   return (
-    <button
-      className={classNames(styles.button, className)}
-      onClick={props.onClick}
-    >
+    <button className={classes} onClick={props.onClick}>
       {children}
     </button>
   );
+}
+
+export function ButtonList({ children }: PropsWithChildren) {
+  return <div className={styles.list}>{children}</div>;
 }

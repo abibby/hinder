@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AddItems } from "./pages/add-items.tsx";
 import { Vote } from "./pages/vote.tsx";
@@ -9,11 +8,16 @@ import { Result } from "./pages/result.tsx";
 import "./main.css";
 import "./polyfill/crypto.randomUUID";
 import { QR } from "./pages/qr.tsx";
+import { QuickList } from "./pages/quick-list.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/quick",
+    element: <QuickList />,
   },
   {
     path: "/qr",
@@ -40,5 +44,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 if ("virtualKeyboard" in navigator) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (navigator as any).virtualKeyboard.overlaysContent = true;
 }
