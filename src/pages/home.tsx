@@ -10,11 +10,11 @@ export function Home() {
   return (
     <section className={styles.home}>
       <h1 className={styles.title}>[hinder]</h1>
-      <ButtonList>
-        <Button className={styles.new} size="lg" href={`/qr#${listID}`}>
+      <ButtonList className={styles.new}>
+        <Button size="lg" href={`/qr#${listID}`}>
           New Empty List
         </Button>
-        <Button className={styles.new} size="lg" href={`/quick#${listID}`}>
+        <Button size="lg" href={`/quick#${listID}`}>
           New Quick List
         </Button>
       </ButtonList>

@@ -39,6 +39,9 @@ export function Button({
   );
 }
 
-export function ButtonList({ children }: PropsWithChildren) {
-  return <div className={styles.list}>{children}</div>;
+export interface BaseButtonProps extends PropsWithChildren {
+  className?: string;
+}
+export function ButtonList({ className, children }: BaseButtonProps) {
+  return <div className={classNames(styles.list, className)}>{children}</div>;
 }
