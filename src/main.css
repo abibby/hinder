@@ -1,9 +1,11 @@
 :root {
   --background: 30, 30, 30;
   --on-background: 255, 255, 255;
-  --primary: 149, 189, 255;
-  --on-primary: 0, 0, 0;
-  --secondary: 180, 228, 255;
+  --primary: 25, 35, 125;
+  --on-primary: 255, 255, 255;
+  --primary-light: 158, 190, 255;
+  --on-primary-light: 0, 0, 0;
+  --secondary: 255, 100, 130;
   --on-secondary: 0, 0, 0;
   --error: 247, 200, 224;
   --on-error: 0, 0, 0;
