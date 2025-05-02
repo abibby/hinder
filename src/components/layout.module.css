@@ -4,9 +4,23 @@
   left: 0;
   right: 0;
   padding: 0.75rem 1rem;
-  background-color: rgb(var(--primary));
+  background: linear-gradient(
+    70deg,
+    rgba(var(--secondary), 40%),
+    rgba(var(--primary), 40%)
+  );
   color: rgba(var(--on-primary), var(--text-opacity));
   line-height: 1;
+  backdrop-filter: blur(0.75rem);
+}
+
+.button:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url("/noise.png");
+  opacity: 0.05;
 }
 
 .navItem {
