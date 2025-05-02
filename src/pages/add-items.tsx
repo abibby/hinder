@@ -23,6 +23,9 @@ export function AddItems() {
   const send = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
+      if (itemName === "") {
+        return;
+      }
       newItem(itemName);
       setItemName("");
       input.current?.focus();

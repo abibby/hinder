@@ -1,15 +1,25 @@
 .button {
+  position: relative;
   display: inline-block;
-  background-color: rgb(var(--primary));
-  color: rgba(var(--on-primary), var(--text-opacity));
-  padding: 10px 15px;
-  border-radius: 6px;
+  background-color: rgb(var(--primary), 20%);
+  color: inherit;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 700;
   border: none;
   outline: none;
+  backdrop-filter: blur(0.75rem);
 }
 
+.button:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url("/noise.png");
+  opacity: 0.05;
+}
 .sm {
   font-size: 1rem;
 }

@@ -7,6 +7,7 @@ import { bind } from "@zwzn/spicy";
 import { usePlaces } from "../hooks/places";
 import { useNavigate } from "react-router-dom";
 import { useDatabase } from "../hooks/database";
+import styles from "./quick-list.module.css";
 
 export function QuickList() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export function QuickList() {
   if (!type) {
     return (
       <Layout>
-        <ButtonList>
+        <ButtonList className={styles.types}>
           <Button size="lg" onClick={bind("restaurant", setType)}>
             Restaurants
           </Button>
@@ -43,7 +44,11 @@ export function QuickList() {
   return (
     <Layout>
       <PlaceList places={places} />
-      <Button onClick={createList}>Create List</Button>
+      <ButtonList>
+        <Button size="lg" onClick={createList}>
+          Create List
+        </Button>
+      </ButtonList>
     </Layout>
   );
 }

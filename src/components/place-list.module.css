@@ -1,0 +1,16 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0.5rem;
+}
+.place {
+  list-style-type: none;
+  background-color: rgba(var(--primary), 20%);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.place h3 {
+  margin: 0;
+}

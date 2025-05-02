@@ -1,5 +1,9 @@
 .home {
   text-align: center;
+  background-image: url("/background.jpeg");
+  position: absolute;
+  inset: 0;
+  padding: 1rem;
 }
 
 .title {
@@ -9,4 +13,9 @@
 
 .new {
   margin-top: 15vh;
+  gap: 2rem;
+}
+
+.new a {
+  padding: 2rem;
 }

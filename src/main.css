@@ -1,4 +1,6 @@
 :root {
+  --background: 30, 30, 30;
+  --on-background: 255, 255, 255;
   --primary: 149, 189, 255;
   --on-primary: 0, 0, 0;
   --secondary: 180, 228, 255;
@@ -13,15 +15,13 @@
   font-family: sans-serif;
 }
 
+:root {
+  background-color: rgb(var(--background));
+  color: rgb(var(--on-background));
+}
+
 body {
-  /* background: radial-gradient(
-    circle at 100% 0%,
-    rgb(var(--primary)),
-    rgb(var(--error))
-  ); */
-  /* min-height: 100vh; */
-  /* margin: 0; */
   padding: 0;
+  margin: 0;
   padding-bottom: env(keyboard-inset-height, 0);
-  /* overflow: hidden; */
 }
