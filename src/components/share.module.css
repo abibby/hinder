@@ -1,0 +1,46 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 30%);
+  transition: color 200ms;
+}
+
+.screen:not(.open) {
+  display: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.popup {
+  position: fixed;
+  background-color: #555;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.5rem;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  transition: transform 200ms;
+}
+
+.popup:not(.open) {
+  transform: translateY(100%);
+}
+
+.qr {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.url {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

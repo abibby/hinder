@@ -2,6 +2,11 @@
   padding-bottom: 50px;
 }
 
+.share {
+  all: unset;
+  float: right;
+}
+
 .items {
   list-style-type: none;
   padding: 0;

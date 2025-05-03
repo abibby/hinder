@@ -9,6 +9,7 @@ import "./main.css";
 import "./polyfill/crypto.randomUUID";
 import { QR } from "./pages/qr.tsx";
 import { QuickList } from "./pages/quick-list.tsx";
+import { SharePopup } from "./components/share.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <SharePopup />
   </React.StrictMode>
 );
 

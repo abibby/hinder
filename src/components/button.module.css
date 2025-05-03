@@ -10,6 +10,7 @@
   border: none;
   outline: none;
   backdrop-filter: blur(0.75rem);
+  font-size: 1rem;
 }
 
 .button:before {
@@ -23,8 +24,8 @@
 .sm {
   font-size: 1rem;
 }
-.sm {
-  font-size: 1rem;
+.md {
+  font-size: 1.25rem;
 }
 .lg {
   font-size: 1.5rem;
