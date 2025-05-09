@@ -9,13 +9,14 @@ export type Place = {
   distance: number;
 };
 
-export function usePlaces(type: string) {
-  const [places, setPlaces] = useState<Place[]>([]);
+export function usePlaces(type: string): [Place[], boolean] {
+  const [places, setPlaces] = useState<Place[]>();
   useEffect(() => {
     if (!type) {
       setPlaces([]);
       return;
     }
+    setPlaces(undefined);
     let canceled = false;
     Promise.all([
       currentLocation(),
@@ -54,7 +55,7 @@ export function usePlaces(type: string) {
       canceled = true;
     };
   }, [type]);
-  return places;
+  return [places ?? [], !places];
 }
 
 // Convert degrees to radians

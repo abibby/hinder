@@ -4,7 +4,7 @@ import { Button, ButtonList } from "../components/button";
 import { PlaceList } from "../components/place-list";
 import { useCallback, useState } from "react";
 import { bind } from "@zwzn/spicy";
-import { usePlaces } from "../hooks/places";
+import { Place, usePlaces } from "../hooks/places";
 import { useNavigate } from "react-router-dom";
 import { useDatabase } from "../hooks/database";
 import styles from "./quick-list.module.css";
@@ -14,7 +14,7 @@ export function QuickList() {
 
   const [listID] = useHash();
   const [type, setType] = useState("");
-  const places = usePlaces(type);
+  const [places, loading] = usePlaces(type);
   const { newItem } = useDatabase(listID);
 
   const createList = useCallback(() => {
@@ -43,9 +43,9 @@ export function QuickList() {
   }
   return (
     <Layout>
-      <PlaceList places={places} />
+      <PlaceList places={places} loading={loading} />
       <ButtonList>
-        <Button size="lg" onClick={createList}>
+        <Button size="lg" onClick={createList} disabled={loading}>
           Create List
         </Button>
       </ButtonList>
