@@ -4,7 +4,7 @@ import { Button, ButtonList } from "../components/button";
 import { PlaceList } from "../components/place-list";
 import { useCallback, useState } from "react";
 import { bind } from "@zwzn/spicy";
-import { Place, usePlaces } from "../hooks/places";
+import { usePlaces } from "../hooks/places";
 import { useNavigate } from "react-router-dom";
 import { useDatabase } from "../hooks/database";
 import styles from "./quick-list.module.css";
