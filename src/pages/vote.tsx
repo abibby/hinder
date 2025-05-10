@@ -37,7 +37,7 @@ export function Vote() {
     if (myVotes) {
       removeVote(myVotes[myVotes.length - 1]);
     }
-  }, [myVotes]);
+  }, [myVotes, removeVote]);
 
   if (combo === loading) {
     return <>loading</>;
