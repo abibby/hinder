@@ -17,15 +17,28 @@ export function SharePopup() {
     popupData.value = undefined;
   }, []);
 
+  const { url, text } = popupData.value ?? {};
+  const message = [text, url].filter((part) => part).join(" ");
+
   const copy = useCallback(async () => {
-    await navigator.clipboard.writeText(popupData.value?.url ?? "");
+    await navigator.clipboard.writeText(message);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
     }, 1000);
+  }, [message]);
+
+  const nativeShare = useCallback(async () => {
+    try {
+      await navigator.share(popupData.value);
+    } catch (e) {
+      if (e instanceof Error && e.name === "AbortError") {
+        return;
+      }
+      throw e;
+    }
   }, []);
 
-  const { url = "" } = popupData.value ?? {};
   const open = popupData.value !== undefined;
 
   return (
@@ -35,11 +48,16 @@ export function SharePopup() {
         onClick={close}
       ></div>
       <div className={classNames(styles.popup, { [styles.open]: open })}>
-        <QRCode className={styles.qr} value={url} />
+        {url && <QRCode className={styles.qr} value={url} />}
         <div className={styles.copy}>
-          <span className={styles.url}>{url}</span>
+          <span className={styles.url}>{message}</span>
           <Button onClick={copy}>{copied ? "Copied" : "Copy"}</Button>
         </div>
+        {!!navigator.share && (
+          <div className={styles.nativeShare}>
+            <Button onClick={nativeShare}>Send Invite</Button>
+          </div>
+        )}
       </div>
     </Fragment>
   );
@@ -47,16 +65,5 @@ export function SharePopup() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function share(data: ShareData) {
-  if (navigator.share) {
-    try {
-      await navigator.share(data);
-      return;
-    } catch (e) {
-      if (e instanceof Error && e.name === "AbortError") {
-        return;
-      }
-      console.warn(e);
-    }
-  }
   popupData.value = data;
 }

@@ -1,4 +1,14 @@
+.placeListRoot {
+  margin-bottom: 4rem;
+}
+
 .types {
   margin-top: 4rem;
   gap: 1rem;
+}
+.createList {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
 }

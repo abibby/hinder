@@ -7,6 +7,7 @@ import { Layout } from "../components/layout";
 import styles from "./add-items.module.css";
 import { Button } from "../components/button";
 import { byKey } from "../utils";
+import { ArrowRight } from "react-feather";
 
 export function AddItems() {
   const userID = useUserID();
@@ -41,6 +42,9 @@ export function AddItems() {
   return (
     <Layout className={styles.root}>
       <h1>Add Items</h1>
+      <Button className={styles.vote} href={`/vote#${listID}`}>
+        Start Voting <ArrowRight size="1em" />
+      </Button>
       <ul className={styles.items}>
         {Array.from(items ?? [])
           .sort(byKey("created_at"))
@@ -58,9 +62,6 @@ export function AddItems() {
             </li>
           ))}
       </ul>
-      <div>
-        <Button href={`/vote#${listID}`}>vote</Button>
-      </div>
       <form className={styles.form} onSubmit={send}>
         <input
           ref={input}

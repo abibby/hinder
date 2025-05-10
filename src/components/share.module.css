@@ -12,7 +12,7 @@
 
 .popup {
   position: fixed;
-  background-color: #555;
+  background-color: #223;
   left: 0;
   right: 0;
   bottom: 0;
@@ -20,6 +20,7 @@
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
   transition: transform 200ms;
+  padding-bottom: 2rem;
 }
 
 .popup:not(.open) {
@@ -35,9 +36,12 @@
 .copy {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
-
+.nativeShare {
+  text-align: right;
+  margin-bottom: 1rem;
+}
 .url {
   flex-grow: 1;
   text-overflow: ellipsis;

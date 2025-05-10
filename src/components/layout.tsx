@@ -15,6 +15,7 @@ export function Layout({
   const openShare = useCallback(async () => {
     await share({
       title: "Join the vote",
+      text: "Join the vote",
       url: location.href,
     });
   }, []);

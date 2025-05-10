@@ -8,7 +8,7 @@ import { Result } from "./pages/result.tsx";
 import "./main.css";
 import "./polyfill/crypto.randomUUID";
 import { QR } from "./pages/qr.tsx";
-import { QuickList } from "./pages/quick-list.tsx";
+import { QuickList, SelectQuickList } from "./pages/quick-list.tsx";
 import { SharePopup } from "./components/share.tsx";
 
 const router = createBrowserRouter([
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/quick",
+    element: <SelectQuickList />,
+  },
+  {
+    path: "/quick/:type",
     element: <QuickList />,
   },
   {

@@ -2,9 +2,13 @@
   padding-bottom: 50px;
 }
 
-.share {
-  all: unset;
-  float: right;
+.vote {
+  display: block;
+  position: sticky;
+  top: 3rem;
+  left: 1rem;
+  right: 1rem;
+  text-align: center;
 }
 
 .items {
