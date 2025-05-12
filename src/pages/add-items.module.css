@@ -7,7 +7,6 @@
   position: sticky;
   top: 3rem;
   flex-direction: row;
-  /* gap: 0.5rem; */
 }
 
 .actions :not(:first-child) {
