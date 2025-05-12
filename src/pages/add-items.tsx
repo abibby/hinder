@@ -42,15 +42,15 @@ export function AddItems() {
 
   return (
     <Layout className={styles.root}>
-      <h1>
-        Add Items
-        <button className={styles.share} onClick={shareVote}>
-          <Share aria-description="share" />
-        </button>
-      </h1>
-      <Button className={styles.vote} href={`/vote#${listID}`}>
-        Start Voting <ArrowRight size="1em" />
-      </Button>
+      <h1>Add Items</h1>
+      <div className={styles.actions}>
+        <Button className={styles.vote} href={`/vote#${listID}`}>
+          Start Voting <ArrowRight size="1em" />
+        </Button>
+        <Button className={styles.share} onClick={shareVote}>
+          <Share aria-description="share" size="1em" />
+        </Button>
+      </div>
       <ul className={styles.items}>
         {Array.from(items ?? [])
           .sort(byKey("created_at"))
