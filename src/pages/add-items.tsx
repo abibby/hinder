@@ -18,10 +18,6 @@ export function AddItems() {
 
   const { items, newItem, removeItem } = useDatabase(listID);
 
-  useEffect(() => {
-    input.current?.focus();
-  }, [input]);
-
   const send = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
@@ -31,14 +27,10 @@ export function AddItems() {
       newItem(itemName);
       setItemName("");
       input.current?.focus();
+      window.scrollTo(0, document.body.scrollHeight);
     },
     [newItem, itemName, setItemName]
   );
-
-  useEffect(() => {
-    if (input.current === document.activeElement)
-      window.scrollTo(0, document.body.scrollHeight);
-  }, [items]);
 
   const shareVote = useCallback(() => {
     share({
