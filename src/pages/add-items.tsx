@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useRef, useState } from "react";
 import { bind, bindValue } from "@zwzn/spicy";
 import { useDatabase } from "../hooks/database";
 import { useHash } from "../hooks/hash";
