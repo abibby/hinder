@@ -7,7 +7,8 @@ import { Layout } from "../components/layout";
 import styles from "./add-items.module.css";
 import { Button } from "../components/button";
 import { byKey } from "../utils";
-import { ArrowRight } from "react-feather";
+import { ArrowRight, Share } from "react-feather";
+import { share } from "../components/share";
 
 export function AddItems() {
   const userID = useUserID();
@@ -39,9 +40,22 @@ export function AddItems() {
       window.scrollTo(0, document.body.scrollHeight);
   }, [items]);
 
+  const shareVote = useCallback(() => {
+    share({
+      title: "Hinder",
+      text: "Join the vote",
+      url: `/add#${listID}`,
+    });
+  }, [listID]);
+
   return (
     <Layout className={styles.root}>
-      <h1>Add Items</h1>
+      <h1>
+        Add Items
+        <button className={styles.share} onClick={shareVote}>
+          <Share aria-description="share" />
+        </button>
+      </h1>
       <Button className={styles.vote} href={`/vote#${listID}`}>
         Start Voting <ArrowRight size="1em" />
       </Button>
