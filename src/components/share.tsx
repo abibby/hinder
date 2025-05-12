@@ -21,12 +21,15 @@ export function SharePopup() {
   const message = [text, url].filter((part) => part).join(" ");
 
   const copy = useCallback(async () => {
-    await navigator.clipboard.writeText(message);
+    if (!url) {
+      return;
+    }
+    await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
     }, 1000);
-  }, [message]);
+  }, [url]);
 
   const nativeShare = useCallback(async () => {
     try {

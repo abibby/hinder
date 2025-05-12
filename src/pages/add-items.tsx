@@ -44,7 +44,7 @@ export function AddItems() {
     share({
       title: "Hinder",
       text: "Join the vote",
-      url: `/add#${listID}`,
+      url: new URL(`/add#${listID}`, location.href).toString(),
     });
   }, [listID]);
 
