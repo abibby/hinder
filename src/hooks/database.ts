@@ -33,7 +33,7 @@ export function useDatabase(listID: string) {
           await db.votes.put(data.vote);
           break;
 
-        case "state":
+        case "state": {
           const listItems = await db.items
             .where("list_id")
             .equals(listID)
@@ -49,6 +49,7 @@ export function useDatabase(listID: string) {
             await sendVote(ws, vote);
           }
           break;
+        }
       }
     },
     [listID]
@@ -81,7 +82,7 @@ export function useDatabase(listID: string) {
       await sendItem(ws, item);
       await db.items.put(item);
     },
-    [ws, userID]
+    [userID, listID, ws]
   );
 
   const removeItem = useCallback(
@@ -121,7 +122,7 @@ export function useDatabase(listID: string) {
       }
       await db.votes.add(msg.vote);
     },
-    [ws, userID]
+    [listID, userID, ws]
   );
 
   const removeVote = useCallback(async (vote: Vote): Promise<void> => {

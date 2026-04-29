@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useRef, useState } from "react";
 import { bind, bindValue } from "@zwzn/spicy";
 import { useDatabase } from "../hooks/database";
 import { useHash } from "../hooks/hash";
@@ -7,6 +7,8 @@ import { Layout } from "../components/layout";
 import styles from "./add-items.module.css";
 import { Button } from "../components/button";
 import { byKey } from "../utils";
+import { ArrowRight, Share } from "react-feather";
+import { share } from "../components/share";
 
 export function AddItems() {
   const userID = useUserID();
@@ -16,28 +18,39 @@ export function AddItems() {
 
   const { items, newItem, removeItem } = useDatabase(listID);
 
-  useEffect(() => {
-    input.current?.focus();
-  }, [input]);
-
   const send = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
+      if (itemName === "") {
+        return;
+      }
       newItem(itemName);
       setItemName("");
       input.current?.focus();
+      window.scrollTo(0, document.body.scrollHeight);
     },
     [newItem, itemName, setItemName]
   );
 
-  useEffect(() => {
-    if (input.current === document.activeElement)
-      window.scrollTo(0, document.body.scrollHeight);
-  }, [items]);
+  const shareVote = useCallback(() => {
+    share({
+      title: "Hinder",
+      text: "Join the vote",
+      url: new URL(`/add#${listID}`, location.href).toString(),
+    });
+  }, [listID]);
 
   return (
     <Layout className={styles.root}>
       <h1>Add Items</h1>
+      <div className={styles.actions}>
+        <Button className={styles.vote} href={`/vote#${listID}`}>
+          Start Voting <ArrowRight size="1em" />
+        </Button>
+        <Button className={styles.share} onClick={shareVote}>
+          <Share aria-description="share" size="1em" />
+        </Button>
+      </div>
       <ul className={styles.items}>
         {Array.from(items ?? [])
           .sort(byKey("created_at"))
@@ -55,9 +68,6 @@ export function AddItems() {
             </li>
           ))}
       </ul>
-      <div>
-        <Button href={`/vote#${listID}`}>vote</Button>
-      </div>
       <form className={styles.form} onSubmit={send}>
         <input
           ref={input}

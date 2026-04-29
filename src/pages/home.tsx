@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./home.module.css";
-import { Button } from "../components/button";
+import { Button, ButtonList } from "../components/button";
 
 export function Home() {
   const [listID, setListID] = useState("");
@@ -10,10 +10,14 @@ export function Home() {
   return (
     <section className={styles.home}>
       <h1 className={styles.title}>[hinder]</h1>
-
-      <Button className={styles.new} size="lg" href={`/qr#${listID}`}>
-        New List
-      </Button>
+      <ButtonList className={styles.new}>
+        <Button size="lg" href={`/add#${listID}`}>
+          New Empty List
+        </Button>
+        <Button size="lg" href={`/quick#${listID}`}>
+          New Quick List
+        </Button>
+      </ButtonList>
     </section>
   );
 }

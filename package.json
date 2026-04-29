@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@preact/signals-react": "^3.0.1",
     "@zwzn/spicy": "^1.0.1",
     "classnames": "^2.3.2",
     "dexie": "^3.2.4",
@@ -19,11 +20,13 @@
     "peerjs": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
     "react-qr-code": "^2.0.12",
     "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
     "@types/elo-rank": "^1.0.3",
+    "@types/google.maps": "^3.58.1",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",

@@ -1,7 +1,11 @@
 :root {
-  --primary: 149, 189, 255;
-  --on-primary: 0, 0, 0;
-  --secondary: 180, 228, 255;
+  --background: 10, 5, 40;
+  --on-background: 255, 255, 255;
+  --primary: 25, 35, 125;
+  --on-primary: 255, 255, 255;
+  --primary-light: 158, 190, 255;
+  --on-primary-light: 0, 0, 0;
+  --secondary: 255, 100, 130;
   --on-secondary: 0, 0, 0;
   --error: 247, 200, 224;
   --on-error: 0, 0, 0;
@@ -13,15 +17,13 @@
   font-family: sans-serif;
 }
 
+:root {
+  background-color: rgb(var(--background));
+  color: rgb(var(--on-background));
+}
+
 body {
-  /* background: radial-gradient(
-    circle at 100% 0%,
-    rgb(var(--primary)),
-    rgb(var(--secondary))
-  ); */
-  /* min-height: 100vh; */
-  /* margin: 0; */
   padding: 0;
+  margin: 0;
   padding-bottom: env(keyboard-inset-height, 0);
-  /* overflow: hidden; */
 }

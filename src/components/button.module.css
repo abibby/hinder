@@ -1,21 +1,42 @@
 .button {
+  position: relative;
   display: inline-block;
-  background-color: rgb(var(--primary));
-  color: rgba(var(--on-primary), var(--text-opacity));
-  padding: 10px 15px;
-  border-radius: 6px;
+  background-color: rgb(var(--primary-light), 20%);
+  color: rgb(var(--on-primary), var(--text-opacity));
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   font-weight: 700;
   border: none;
   outline: none;
+  backdrop-filter: blur(0.75rem);
+  font-size: 1rem;
 }
 
-.sm {
-  font-size: 1rem;
+.button:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url("/noise.png");
+  opacity: 0.05;
 }
 .sm {
   font-size: 1rem;
+}
+.md {
+  font-size: 1.25rem;
 }
 .lg {
   font-size: 1.5rem;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.disabled {
+  background-color: rgb(var(--primary-light), 10%);
+  color: rgb(var(--on-primary), 50%);
 }

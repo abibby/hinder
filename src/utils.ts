@@ -3,8 +3,8 @@ export function byKey<T>(
   order: "asc" | "desc" = "asc"
 ): (a: T, b: T) => number {
   return function (a, b) {
-    var x = a[key];
-    var y = b[key];
+    const x = a[key];
+    const y = b[key];
     let flip = 1;
     if (order === "desc") {
       flip = -1;

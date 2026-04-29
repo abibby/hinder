@@ -7,6 +7,7 @@ export function useWebsocket<T = unknown>(
 ): WebSocket | undefined {
   const [ws, setWS] = useState<WebSocket>();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const messageCB = useCallback(onMessage, deps);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export function useWebsocket<T = unknown>(
       console.log("close " + url);
       ws.close();
     };
-  }, [url]);
+  }, [messageCB, url]);
 
   return ws;
 }

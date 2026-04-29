@@ -1,0 +1,50 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0.5rem;
+}
+.place {
+  list-style-type: none;
+  background-color: rgba(var(--primary), 20%);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.place h3 {
+  margin: 0;
+}
+.place p {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.place.loading {
+  background-image: linear-gradient(
+    in oklab -45deg,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(var(--on-primary), 0.25) 50%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 1s infinite linear;
+}
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
+  }
+}
+.place.loading > * {
+  background-color: rgba(var(--on-primary), 0.25);
+  color: rgba(0, 0, 0, 0);
+  border-radius: 9999px;
+}
+
+.place.loading h3 {
+  width: 70%;
+}
+
+.place.loading p {
+  width: 50%;
+}

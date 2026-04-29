@@ -1,12 +1,25 @@
 .home {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
   text-align: center;
+  background-image: url("/background.jpeg");
+  background-position: bottom;
+  background-size: cover;
+  inset: 0;
+  padding: 1rem;
 }
 
 .title {
-  margin-top: 25vh;
   font-size: 2rem;
 }
 
 .new {
-  margin-top: 15vh;
+  margin: 15vh 0;
+  gap: 2rem;
+}
+
+.new a {
+  padding: 2rem;
 }
